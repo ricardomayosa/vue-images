@@ -1,4 +1,5 @@
 import qs from 'qs';
+import Axios from 'axios';
 
 const CLIENT_ID = '1ed832604b6908f';
 //const CLIENT_SECRET = '9cf115bceec53d2f228c210af7ff1e0353f330f7';
@@ -13,5 +14,13 @@ export default {
             // state: APPLICATION_STATE,
         }
         window.location = `${ROOT_URL}/oauth2/authorize?${qs.stringify(querystring)}`;
+    },
+    fetchImages(token) {
+        return Axios.get(`${ROOT_URL}/3/account/me/images`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        // .then(res => HTMLFormControlsCollection.log(res))
     }
 }
