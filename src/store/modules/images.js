@@ -1,4 +1,5 @@
 import api from '../../api/imgur';
+import { router } from '../../main';
 
 const state = {
     images: []
@@ -6,7 +7,6 @@ const state = {
 
 const getters = {
     allImages: (state) => state.images
-        // '!!' Turns value into boolean -> True if !null
 };
 
 const actions = {
@@ -15,12 +15,17 @@ const actions = {
         const res = await api.fetchImages(token);
         commit('setImages', res.data.data);
     },
-    uploadImage: () => {
+    async uploadImages( { rootState }, images ) {
         
+        // Get access token
+        const { token } = rootState.auth;
+
+        // Call API to upload
+        await api.uploadImages(images, token);
+
+        // Redirect user to ImageList component
+        router.push('/');
     },
-    // setImages: ( { commit }, hash) => {
-        
-    // }
 };
 
 const mutations = {
